@@ -1,0 +1,16 @@
+name: CI
+
+on: 
+  push:
+    branches: main
+
+jobs: 
+  execute-test:
+    - name: install dependancies 
+      run: mvn clean install
+    - name: unit-test
+      run: mvn test -Dtest=PricingServiceTest
+    - name: integration-test
+      needs: unit-test
+      run: mvn test -Dtest=PricingIntegrationTest,PasswordPolicyTest
+
