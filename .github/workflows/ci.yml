@@ -32,9 +32,9 @@ jobs:
 
   execute-integ-test:
     runs-on: ubuntu-latest  # OBLIGATOIRE : Définit l'OS (souvent Linux)
+    needs: execute-unit-test
     
     steps:  # OBLIGATOIRE : Pour lister les commandes
       # Étape 5 : Tests d'intégration
       - name: Run Integration Tests
-        needs: execute-unit-test
         run: mvn test -Dtest=PricingIntegrationTest,PasswordPolicyTest
