@@ -2,15 +2,35 @@ name: CI
 
 on: 
   push:
-    branches: main
+    branches: [ "main" ]
 
 jobs: 
   execute-test:
-    - name: install dependancies 
-      run: mvn clean install
-    - name: unit-test
-      run: mvn test -Dtest=PricingServiceTest
-    - name: integration-test
-      needs: unit-test
-      run: mvn test -Dtest=PricingIntegrationTest,PasswordPolicyTest
+    runs-on: ubuntu-latest  # OBLIGATOIRE : Définit l'OS (souvent Linux)
+    
+    steps:  # OBLIGATOIRE : Pour lister les commandes
+      
+      # Étape 1 : Récupérer le code (sinon le dossier est vide)
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      # Étape 2 : Installer Java (Recommandé pour Maven)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # Étape 3 : Installer les dépendances (sans lancer les tests tout de suite)
+      - name: Install dependencies
+        run: mvn install -DskipTests
+
+      # Étape 4 : Tests unitaires
+      - name: Run Unit Tests
+        run: mvn test -Dtest=PricingServiceTest
+
+      # Étape 5 : Tests d'intégration
+      - name: Run Integration Tests
+        needs: Run Unit Tests
+        run: mvn test -Dtest=PricingIntegrationTest,PasswordPolicyTest
