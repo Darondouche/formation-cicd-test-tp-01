@@ -7,6 +7,9 @@ on:
 jobs: 
   execute-unit-test:
     runs-on: ubuntu-latest  # OBLIGATOIRE : Définit l'OS (souvent Linux)
+    defaults:
+      run:
+        working-directory: order-service
     
     steps:  # OBLIGATOIRE : Pour lister les commandes
       
@@ -32,6 +35,9 @@ jobs:
 
   execute-integ-test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: order-service
     needs: execute-unit-test
     
     steps:
