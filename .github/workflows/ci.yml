@@ -33,12 +33,23 @@ jobs:
       - name: Run Unit Tests
         run: mvn test -Dtest=PricingServiceTest
 
-  execute-integ-test:
+  quality-test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: order-service
     needs: execute-unit-test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+  execute-integ-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: order-service
+    needs: quality-test
     
     steps:
       - name: Checkout code
