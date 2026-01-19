@@ -32,5 +32,4 @@ jobs:
 
       # Étape 5 : Tests d'intégration
       - name: Run Integration Tests
-        needs: Run Unit Tests
         run: mvn test -Dtest=PricingIntegrationTest,PasswordPolicyTest
